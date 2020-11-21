@@ -1,0 +1,5 @@
+module.exports.auth = require("./auth")
+module.exports.crop = require("./crop")
+module.exports.nutrient = require("./nutrient")
+module.exports.fertilizer = require("./fertililizer")
+module.exports.sample = require("./sample")
