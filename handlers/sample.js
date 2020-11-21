@@ -161,23 +161,24 @@ exports.sendResultSample = async (req, res, next) => {
         map_crop.set("calcium", nutrient.calcium)
         map_crop.set("magnesium", nutrient.magnesium)
 
-        var map_result = []
+        var array_faltante = []
+        var array_recomendado = []
         
         await map_crop.forEach((value, key) => {
-            console.log(`${key} de la cultivo => ${value}, ${key} del muestra => ${map_sample.get(key)}`)
-            console.log(this.diff(value, map_sample.get(key)))
+            /* console.log(`${key} de la cultivo => ${value}, ${key} del muestra => ${map_sample.get(key)}`)
+            console.log(this.diff(value, map_sample.get(key))) */
             if (this.diff(value, map_sample.get(key)) > 0) {
-                var result = {}        
+                var result = {}       
+                var recomend = {}
                 result[key] = this.diff(value, map_sample.get(key))
-                map_result.push(result)
+                recomend[key] = value
+                array_faltante.push(result)
+                array_recomendado.push(recomend)
                 
             }
         })
-        map_result.forEach((value, key) => {
-            console.log(value)
-        })
-        res.status(200).json({faltantes:map_result})
-
+     
+        res.status(200).json({faltantes:array_faltante, recomendado:array_recomendado})
     } catch (error) {
         error.status = 400
         next(error)
