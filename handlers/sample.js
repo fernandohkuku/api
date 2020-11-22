@@ -130,7 +130,6 @@ exports.sendResultSample = async (req, res, next) => {
         const { id: sampleId } = req.params
 
         const sample = await db.Sample.findById(sampleId)
-
             .populate({ path: "crop", populate: "nutrient" })
 
         if (!sample) throw new Error("sample not found")
@@ -139,9 +138,13 @@ exports.sendResultSample = async (req, res, next) => {
 
             throw new Error("Unauthorized access")
         }
+        
+
         const { crop } = sample
 
         const { nutrient } = crop
+
+        if (!nutrient) throw new Error("sample has not nutrients")
 
         var map_sample = new HashMap()
 
