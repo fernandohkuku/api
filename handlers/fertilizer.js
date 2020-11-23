@@ -19,7 +19,7 @@ exports.showFertilizers = async(req, res, next) => {
     try {
         const fertilizers = await db.Fertilizer.find()
         .populate("nutrient")
-        
+    
         if(!fertilizers) throw new Error("Fertilizes Not found")
 
         res.status(200).json(fertilizers)
@@ -33,9 +33,12 @@ exports.showFertilizers = async(req, res, next) => {
 exports.getFertilizer = async(req, res, next) =>{
     try {
         const {id} = req.params
+        
         const fertilizer = await db.Fertilizer.findById(id)
         .populate("nutrient")
+        
         if(!fertilizer) throw new Error("Fertilizer Not found")
+
         res.status(200).json(fertilizer)
     } catch (error) {
         error.status = 400

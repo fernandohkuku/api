@@ -6,8 +6,7 @@ exports.register = async(req, res, next) => {
         const user = await db.User.create(req.body)
 
         const {id, name, username} = user
-        
-        
+
         const token = jwt.sign({id, name, username}, process.env.SECRET)
 
         res.status(201).json({id, name, username, token})

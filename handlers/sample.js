@@ -17,6 +17,7 @@ exports.createSample = async (req, res, next) => {
         await user.save()
 
         res.status(201).json({ ...sample._doc, user: user._id })
+        
     } catch (error) {
         if (error.code === 11000) {
             error.message = "Sorry, that crop exist"
@@ -40,6 +41,7 @@ exports.showSamples = async (req, res, next) => {
 exports.userSamples = async (req, res, next) => {
     try {
         const { id } = req.decode
+
         const user = await db.User.findById(id)
             .populate({ path: "sample", populate: { path: "crop" } })
 
@@ -75,6 +77,7 @@ exports.getSample = async (req, res, next) => {
 exports.updateSample = async (req, res, next) => {
     try {
         const { id: sampleId } = req.params
+        
         const { id: userId } = req.decode
 
         const sample = await db.Sample.findById(sampleId)
@@ -103,6 +106,7 @@ exports.updateSample = async (req, res, next) => {
 exports.deleteSample = async (req, res, next) => {
     try {
         const { id: sampleId } = req.params
+
         const { id: userId } = req.decode
 
         const sample = await db.Sample.findById(sampleId)
@@ -112,6 +116,7 @@ exports.deleteSample = async (req, res, next) => {
         if (sample.user.toString() !== userId) {
             throw new Error("Unauthorized access")
         }
+
         await sample.remove()
 
         res.status(200).json(sample)
@@ -121,7 +126,6 @@ exports.deleteSample = async (req, res, next) => {
         next(error)
     }
 }
-
 
 exports.sendResultSample = async (req, res, next) => {
     try {
@@ -138,8 +142,7 @@ exports.sendResultSample = async (req, res, next) => {
 
             throw new Error("Unauthorized access")
         }
-        
-
+    
         const { crop } = sample
 
         const { nutrient } = crop
@@ -166,10 +169,8 @@ exports.sendResultSample = async (req, res, next) => {
 
         var array_faltante = []
         var array_recomendado = []
-        
+    
         await map_crop.forEach((value, key) => {
-            /* console.log(`${key} de la cultivo => ${value}, ${key} del muestra => ${map_sample.get(key)}`)
-            console.log(this.diff(value, map_sample.get(key))) */
             if (this.diff(value, map_sample.get(key)) > 0) {
                 var result = {}       
                 var recomend = {}
