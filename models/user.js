@@ -18,7 +18,8 @@ const userSchema = new moongose.Schema({
     },
     sample:[{
         type:moongose.Schema.Types.ObjectId, ref:"Sample"
-    }]
+    }],
+    role:Boolean
 })
 
 userSchema.pre("save", async function(next){
