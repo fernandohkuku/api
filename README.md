@@ -6,4 +6,5 @@
 ## Run this project
   
   - You have to run npm install
+  - add .env with PORT=3700 and SECRET="What do you want"
   - Run npm start
